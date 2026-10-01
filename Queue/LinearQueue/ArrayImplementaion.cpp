@@ -53,10 +53,15 @@ int main(){
     enqueue(10);
     enqueue(20);
     enqueue(30);
+    enqueue(40);
+    enqueue(50);
     cout << dequeue() << '\n';
-    // cout << dequeue() << '\n';
-    // cout << dequeue() << '\n';
-    // cout << dequeue() << '\n';
+    cout << dequeue() << '\n';
+    cout << dequeue() << '\n';
+    enqueue(60);
+    enqueue(60);
+    enqueue(60);
+    cout << dequeue() << '\n';
     traversal(); cout << '\n';
     cout << peek() << '\n';
 }
