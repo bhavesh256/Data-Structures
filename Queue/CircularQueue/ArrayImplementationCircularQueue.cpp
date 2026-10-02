@@ -8,7 +8,7 @@ int arr[SIZE];
 
 void enqueue(int val){
     if((rear+1)%SIZE == front){
-        cout << "Overflow";
+        cout << "Overflow\n";
         return;
     }
 
@@ -38,11 +38,36 @@ int dequeue(){
     return dequeuedEle;
 }
 
+void traverse(){
+    if(front == -1 && rear == -1){
+        cout << "Underflow\n";
+        return;
+    }
+
+    int i = front;
+    for(i; i!=rear; i=(i+1)%SIZE){
+        cout << arr[i] << " ";
+    }
+    cout << arr[i] << '\n';
+}
+
+void peek(){
+    if(front == -1 && rear == -1){
+        cout << "Underflow\n";
+        return;
+    }
+    cout << arr[front] << '\n';
+}
+
 int main(){
     enqueue(10);
     enqueue(20);
     enqueue(30);
-    cout << dequeue() << '\n';
-    cout << dequeue() << '\n';
-    cout << dequeue() << '\n';
+    enqueue(40);
+    enqueue(50);
+    // cout << dequeue() << '\n';
+    // cout << dequeue() << '\n';
+    // cout << dequeue() << '\n';
+    traverse();
+    peek();
 }
