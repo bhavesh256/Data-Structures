@@ -4,68 +4,68 @@ using namespace std;
 
 struct Node {
     int data;
-    Node* next;
+    Node*next;
 
     Node(int data) {
-        this->data = data;
-        this->next = nullptr;
+        this->data=data;
+        this->next=nullptr;
     }
 };
 
-Node* front = nullptr;
-Node* rear = nullptr;
+Node*front=nullptr;
+Node*rear=nullptr;
 
 // Traverse the queue
 void traverse() {
-    if (front == nullptr) {
-        cout << "Queue is empty";
+    if (front==nullptr) {
+        cout<<"Queue is empty";
         return;
     }
 
-    Node* temp = front;
+    Node*temp=front;
 
-    while (temp != nullptr) {
-        cout << temp->data << " ";
-        temp = temp->next;
+    while (temp!=nullptr) {
+        cout<<temp->data<<" ";
+        temp=temp->next;
     }
 }
 
 // Enqueue operation
 void enqueue(int val) {
-    Node* newNode = new (nothrow) Node(val);
+    Node*newNode=new (nothrow) Node(val);
 
     // Overflow condition
-    if (newNode == nullptr) {
-        cout << "Overflow: Memory allocation failed!" << endl;
+    if (newNode==nullptr) {
+        cout<<"Overflow: Memory allocation failed!"<<endl;
         return;
     }
 
     // Queue is empty
-    if (front == nullptr) {
-        front = newNode;
-        rear = newNode;
+    if (front==nullptr) {
+        front=newNode;
+        rear=newNode;
         return;
     }
 
     // Insert at rear
-    rear->next = newNode;
-    rear = newNode;
+    rear->next=newNode;
+    rear=newNode;
 }
 
 // Dequeue operation
 void dequeue() {
     // Underflow condition
-    if (front == nullptr) {
-        cout << "Underflow: Queue is empty!" << endl;
+    if (front==nullptr) {
+        cout<<"Underflow: Queue is empty!"<<endl;
         return;
     }
 
-    Node* delNode = front;
-    front = front->next;
+    Node*delNode=front;
+    front=front->next;
 
     // If queue becomes empty
-    if (front == nullptr) {
-        rear = nullptr;
+    if (front==nullptr) {
+        rear=nullptr;
     }
 
     delete delNode;
@@ -74,9 +74,9 @@ void dequeue() {
 // Peek operation
 int peek() {
     // Underflow condition
-    if (front == nullptr) {
-        cout << "Underflow: Queue is empty!" << endl;
-        return -1;
+    if (front==nullptr) {
+        cout<<"Underflow: Queue is empty!"<<endl;
+        return-1;
     }
 
     return front->data;
@@ -88,19 +88,19 @@ int main() {
     enqueue(20);
     enqueue(30);
 
-    cout << "Queue: ";
+    cout<<"Queue: ";
     traverse();
-    cout << endl;
+    cout<<endl;
 
     dequeue();
     enqueue(40);
     dequeue();
 
-    cout << "Queue after operations: ";
+    cout<<"Queue after operations: ";
     traverse();
-    cout << endl;
+    cout<<endl;
 
-    cout << "Front element: " << peek() << endl;
+    cout<<"Front element: "<<peek()<<endl;
 
     dequeue();
     dequeue();

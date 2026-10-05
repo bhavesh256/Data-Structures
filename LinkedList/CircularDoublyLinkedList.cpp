@@ -2,125 +2,125 @@
 using namespace std;
 
 struct Node {
-    Node* prev;
+    Node*prev;
     int data;
-    Node* next;
+    Node*next;
 
     Node(int data) {
-        prev = NULL;
-        this->data = data;
-        next = NULL;
+        prev=NULL;
+        this->data=data;
+        next=NULL;
     }
 };
 
 // Insert at Front
-void insertFront(Node*& head) {
+void insertFront(Node*&head) {
 
-    Node* newNode = new Node(10);
+    Node*newNode=new Node(10);
 
     // Find tail
-    Node* tail = head;
+    Node*tail=head;
 
-    while (tail->next != head) {
-        tail = tail->next;
+    while (tail->next!=head) {
+        tail=tail->next;
     }
 
     // Connect new node
-    newNode->next = head;
-    newNode->prev = tail;
+    newNode->next=head;
+    newNode->prev=tail;
 
     // Old head's previous becomes new node
-    head->prev = newNode;
+    head->prev=newNode;
 
     // Tail's next becomes new head
-    tail->next = newNode;
+    tail->next=newNode;
 
     // Update head
-    head = newNode;
+    head=newNode;
 }
 
 // Delete at End
-void deleteEnd(Node*& head) {
+void deleteEnd(Node*&head) {
 
     // Empty list
-    if (head == NULL)
+    if (head==NULL)
         return;
 
     // Only one node
-    if (head->next == head) {
+    if (head->next==head) {
         delete head;
-        head = NULL;
+        head=NULL;
         return;
     }
 
     // Find tail
-    Node* tail = head;
+    Node*tail=head;
 
-    while (tail->next != head) {
-        tail = tail->next;
+    while (tail->next!=head) {
+        tail=tail->next;
     }
 
     // New tail is previous node
-    Node* newTail = tail->prev;
+    Node*newTail=tail->prev;
 
     // Connect new tail to head
-    newTail->next = head;
+    newTail->next=head;
 
     // Head points back to new tail
-    head->prev = newTail;
+    head->prev=newTail;
 
     // Delete old tail
     delete tail;
 }
 
 // Traversal
-void traverse(Node* head) {
+void traverse(Node*head) {
 
-    if (head == NULL)
+    if (head==NULL)
         return;
 
-    Node* temp = head;
+    Node*temp=head;
 
     do {
-        cout << temp->data << " <-> ";
-        temp = temp->next;
-    } while (temp != head);
+        cout<<temp->data<<" <-> ";
+        temp=temp->next;
+    } while (temp!=head);
 
-    cout << "HEAD\n";
+    cout<<"HEAD\n";
 }
 
 int main() {
 
-    Node* head = NULL;
+    Node*head=NULL;
 
     // Create first node
-    head = new Node(20);
+    head=new Node(20);
 
     // Create second node
-    Node* second = new Node(30);
-    head->next = second;
-    second->prev = head;
+    Node*second=new Node(30);
+    head->next=second;
+    second->prev=head;
 
     // Create third node
-    Node* third = new Node(35);
-    second->next = third;
-    third->prev = second;
+    Node*third=new Node(35);
+    second->next=third;
+    third->prev=second;
 
     // Make it circular
-    third->next = head;
-    head->prev = third;
+    third->next=head;
+    head->prev=third;
 
-    cout << "Original:\n";
+    cout<<"Original:\n";
     traverse(head);
 
     insertFront(head);
 
-    cout << "After insert front:\n";
+    cout<<"After insert front:\n";
     traverse(head);
 
     deleteEnd(head);
 
-    cout << "After delete end:\n";
+    cout<<"After delete end:\n";
     traverse(head);
 
     return 0;
