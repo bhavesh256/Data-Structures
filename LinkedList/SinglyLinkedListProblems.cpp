@@ -3,37 +3,45 @@ using namespace std;
 
 struct Node {
     int data;
-    Node *next = NULL;
+    Node* next;
 
-    Node(int data){
+    Node(int data) {
         this->data = data;
+        this->next = nullptr;
     }
 };
 
-void deleteEverySecondElement(Node *&head){
+// Delete every second element
+void deleteEverySecondElement(Node*& head) {
 
-    if(head == NULL) return;
+    if (head == nullptr)
+        return;
 
-    Node *temp = head;
-    while(temp != NULL && temp->next != NULL){
-        // why temp->next != NULL && temp != NULL ?     Dry run 1 2 3
-        Node *delNode = temp->next;
+    Node* temp = head;
+
+    while (temp != nullptr && temp->next != nullptr) {
+
+        // Node to be deleted
+        Node* delNode = temp->next;
+
+        // Skip the node to be deleted
         temp->next = temp->next->next;
+
+        // Delete it
         delete delNode;
 
+        // Move to next remaining node
         temp = temp->next;
     }
 }
 
-// Order matters: check temp first before accessing temp->next
-// because temp->next will cause a segmentation fault if temp == NULL.
-// while(temp != NULL && temp->next != NULL)
+// Find length
+int lengthOfLinkedList(Node* head) {
 
-int lengthOfLinkedList(Node *head){
-    Node *temp = head;
-
+    Node* temp = head;
     int len = 0;
-    while(temp != NULL){
+
+    while (temp != nullptr) {
         len++;
         temp = temp->next;
     }
@@ -41,65 +49,107 @@ int lengthOfLinkedList(Node *head){
     return len;
 }
 
-int middleElement(Node *head){
+// Middle using length
+// Returns FIRST middle for even length
+int middleElement(Node* head) {
+
+    if (head == nullptr) {
+        cout << "Empty List\n";
+        return -1;
+    }
+
     int len = lengthOfLinkedList(head);
-    int mid = (len - 1)/2;
-    int count = 0;
-    Node *temp = head;
-    while(count < mid){
-        count++;
+
+    int mid = (len - 1) / 2;
+
+    Node* temp = head;
+
+    for (int i = 0; i < mid; i++) {
         temp = temp->next;
     }
 
     return temp->data;
 }
 
-int middleElementFastAndSlowPointers(Node *head){
-    Node *fast = head;
-    Node *slow = head;
+// Middle using fast and slow pointers
+// Returns FIRST middle for even length
+int middleElementFastAndSlowPointers(Node* head) {
 
-    while(fast != NULL && fast->next != NULL){
-        fast = fast->next->next;
+    if (head == nullptr) {
+        cout << "Empty List\n";
+        return -1;
+    }
+
+    Node* slow = head;
+    Node* fast = head;
+
+    // Move fast two steps and slow one step
+    // until fast reaches the last node
+    while (fast->next != nullptr &&
+           fast->next->next != nullptr) {
+
         slow = slow->next;
+        fast = fast->next->next;
     }
 
     return slow->data;
 }
 
-int main(){
+// Display linked list
+void traverse(Node* head) {
+
+    Node* temp = head;
+
+    while (temp != nullptr) {
+        cout << temp->data << " >> ";
+        temp = temp->next;
+    }
+
+    cout << "NULL\n";
+}
+
+int main() {
 
     int n;
     cin >> n;
 
-    Node *head = NULL;
+    Node* head = nullptr;
+    Node* tail = nullptr;
 
-    for(int i=1; i<=n; i++){
+    // Create linked list
+    for (int i = 0; i < n; i++) {
+
         int val;
         cin >> val;
-        Node *newNode = new Node(val);
 
-        if(head == NULL){
+        Node* newNode = new Node(val);
+
+        if (head == nullptr) {
             head = newNode;
+            tail = newNode;
         }
         else {
-            Node *temp = head;
-            while(temp->next != NULL){
-                temp = temp->next;
-            }
-            temp->next = newNode;
+            tail->next = newNode;
+            tail = newNode;
         }
     }
 
-    cout << "Length: " << lengthOfLinkedList(head) << '\n';
-    cout << "Middle: " << middleElement(head) << '\n';
-    cout << "Middle Fast and Slow Pointer: " << middleElementFastAndSlowPointers(head) << '\n';
+    cout << "Original List: ";
+    traverse(head);
+
+    cout << "Length: "
+         << lengthOfLinkedList(head) << '\n';
+
+    cout << "Middle: "
+         << middleElement(head) << '\n';
+
+    cout << "Middle Fast and Slow Pointer: "
+         << middleElementFastAndSlowPointers(head) << '\n';
 
     deleteEverySecondElement(head);
 
-    Node *temp = head;
-    while(temp != NULL){
-        cout << temp->data << " >> ";
-        temp = temp->next;
-    }
-    cout << "null" << '\n';
+    cout << "After deleting every second element: ";
+    traverse(head);
+
+    return 0;
 }

@@ -1,73 +1,110 @@
 #include <iostream>
 using namespace std;
+
 #define SIZE 5
 
 int front = -1;
 int rear = -1;
 int arr[SIZE];
 
-void enqueue(int val){
-    if((rear+1)%SIZE == front){
+// Enqueue
+void enqueue(int val) {
+
+    // Overflow condition
+    if ((rear + 1) % SIZE == front) {
         cout << "Overflow\n";
         return;
     }
 
-    if(front == -1 && rear == -1){
+    // Queue is empty
+    if (front == -1 && rear == -1) {
         front = rear = 0;
     }
     else {
-        rear = (rear+1)%SIZE;
+        rear = (rear + 1) % SIZE;
     }
+
     arr[rear] = val;
 }
 
-int dequeue(){
-    int dequeuedEle;
-    if(front == -1){
+// Dequeue
+int dequeue() {
+
+    // Underflow condition
+    if (front == -1) {
         cout << "Underflow\n";
         return -1;
     }
-    else if(front == rear){
-        dequeuedEle = arr[front];
+
+    int dequeuedEle = arr[front];
+
+    // Only one element
+    if (front == rear) {
         front = rear = -1;
     }
-    else{
-        dequeuedEle = arr[front];
-        front = (front+1)%SIZE;
+    else {
+        front = (front + 1) % SIZE;
     }
+
     return dequeuedEle;
 }
 
-void traverse(){
-    if(front == -1 && rear == -1){
+// Traverse
+void traverse() {
+
+    // Queue is empty
+    if (front == -1) {
         cout << "Underflow\n";
         return;
     }
 
     int i = front;
-    for(i; i!=rear; i=(i+1)%SIZE){
+
+    while (true) {
         cout << arr[i] << " ";
+
+        if (i == rear)
+            break;
+
+        i = (i + 1) % SIZE;
     }
-    cout << arr[i] << '\n';
+
+    cout << '\n';
 }
 
-void peek(){
-    if(front == -1 && rear == -1){
+// Peek
+void peek() {
+
+    // Queue is empty
+    if (front == -1) {
         cout << "Underflow\n";
         return;
     }
-    cout << arr[front] << '\n';
+
+    cout << "Front element: " << arr[front] << '\n';
 }
 
-int main(){
+int main() {
+
     enqueue(10);
     enqueue(20);
     enqueue(30);
     enqueue(40);
     enqueue(50);
-    // cout << dequeue() << '\n';
-    // cout << dequeue() << '\n';
-    // cout << dequeue() << '\n';
+
     traverse();
     peek();
+
+    cout << "Deleted: " << dequeue() << '\n';
+    cout << "Deleted: " << dequeue() << '\n';
+
+    enqueue(60);
+    enqueue(70);
+
+    cout << "Queue after deletion and insertion: ";
+    traverse();
+
+    peek();
+
+    return 0;
 }

@@ -1,68 +1,104 @@
 #include <iostream>
+#include <new>
 using namespace std;
 
 struct Node {
-    Node *next;
     int data;
+    Node* next;
 
-    Node(int data){
+    Node(int data) {
         this->data = data;
         this->next = nullptr;
     }
 };
-Node *front = nullptr;
-Node *rear = nullptr;
 
-void traverse(){
-    if(front == nullptr){
+Node* front = nullptr;
+Node* rear = nullptr;
+
+// Traverse circular queue
+void traverse() {
+
+    // Underflow / empty queue
+    if (front == nullptr) {
         cout << "Underflow\n";
         return;
     }
-    Node *temp = front;
-    do{
+
+    Node* temp = front;
+
+    do {
         cout << temp->data << " ";
         temp = temp->next;
     } while (temp != front);
+
+    cout << '\n';
 }
 
-void enqueue(int val){
-    Node *newNode = new Node(val);
+// Enqueue
+void enqueue(int val) {
 
-    if(front == nullptr){
-        front = newNode;
-        rear = newNode;
-        rear->next = front;
+    // Create new node
+    Node* newNode = new (nothrow) Node(val);
+
+    // Overflow condition
+    if (newNode == nullptr) {
+        cout << "Overflow\n";
         return;
     }
+
+    // If queue is empty
+    if (front == nullptr) {
+        front = newNode;
+        rear = newNode;
+
+        // Circular connection
+        rear->next = front;
+
+        return;
+    }
+
+    // Insert at rear
     rear->next = newNode;
     rear = newNode;
+
+    // Maintain circular connection
     rear->next = front;
 }
 
+// Dequeue
 int dequeue() {
+
+    // Underflow condition
     if (front == nullptr) {
         cout << "Underflow\n";
         return -1;
     }
 
-    Node *delNode = front;
+    Node* delNode = front;
     int dequeuedData = delNode->data;
 
+    // Only one node
     if (front == rear) {
         front = nullptr;
         rear = nullptr;
     }
     else {
         front = front->next;
+
+        // Maintain circular connection
         rear->next = front;
     }
 
     delete delNode;
+
     return dequeuedData;
 }
 
-int peek(){
-    if(front == nullptr){
+// Peek
+int peek() {
+
+    // Underflow condition
+    if (front == nullptr) {
         cout << "Underflow\n";
         return -1;
     }
@@ -70,12 +106,23 @@ int peek(){
     return front->data;
 }
 
-int main(){
+int main() {
+
     enqueue(10);
     enqueue(20);
     enqueue(30);
-    traverse(); cout << '\n';
-    cout << dequeue() << '\n';
-    traverse(); cout << '\n';
-    cout << peek() <<'\n';
+    enqueue(40);
+    enqueue(50);
+
+    cout << "Queue: ";
+    traverse();
+
+    cout << "Deleted: " << dequeue() << '\n';
+
+    cout << "Queue after deletion: ";
+    traverse();
+
+    cout << "Front element: " << peek() << '\n';
+
+    return 0;
 }

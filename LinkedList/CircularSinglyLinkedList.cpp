@@ -3,108 +3,150 @@ using namespace std;
 
 struct Node {
     int data;
-    Node *next = NULL;
+    Node* next = NULL;
 
-    Node(int data){
+    Node(int data) {
         this->data = data;
     }
 };
 
-void traversal(Node *head) {
+// Traversal — O(N)
+void traversal(Node* head) {
+
     if (head == NULL)
         return;
-
-    Node *temp = head;
-
-    do {
-        cout << temp->data << " — ";
-        temp = temp->next;
-    } while (temp != head);
-
-    cout << "head" << '\n';
-}
-
-void insertFront(Node *&head, int val){
-    Node *newNode = new Node(val);
-
-    if(head == NULL){
-        head = newNode;
-        head->next = head;
-        return;
-    }
 
     Node* temp = head;
 
     do {
+        cout << temp->data << " -> ";
         temp = temp->next;
-    } while (temp->next != head);
+    } while (temp != head);
 
+    cout << "HEAD\n";
+}
+
+// Insert at Front — O(N)
+void insertFront(Node*& head, int val) {
+
+    Node* newNode = new Node(val);
+
+    // Empty list
+    if (head == NULL) {
+        head = newNode;
+        head->next = head;
+        return;
+    }
+
+    // Find last node
+    Node* temp = head;
+
+    while (temp->next != head) {
+        temp = temp->next;
+    }
+
+    // Insert new node before head
     newNode->next = head;
     temp->next = newNode;
+
+    // Update head
     head = newNode;
 }
 
-void insertBack(Node *&head, int val){
-    Node *newNode = new Node(val);
-    if(head == NULL){
+// Insert at Back — O(N)
+void insertBack(Node*& head, int val) {
+
+    Node* newNode = new Node(val);
+
+    // Empty list
+    if (head == NULL) {
         head = newNode;
         head->next = head;
+        return;
     }
-    Node *temp = head;
 
-    while(temp->next != head){
+    // Find last node
+    Node* temp = head;
+
+    while (temp->next != head) {
         temp = temp->next;
     }
 
+    // Insert after last node
     newNode->next = head;
     temp->next = newNode;
 }
 
-void deleteFront(Node *&head){
-    if(head == NULL) return;
+// Delete Front — O(N)
+void deleteFront(Node*& head) {
 
-    if(head->next == head){
-        delete head;
-    }
+    // Empty list
+    if (head == NULL)
+        return;
 
-    Node *temp = head;
-    Node *delNode = head;
-    while(temp->next != head){
-        temp = temp->next;
-    }
-    temp->next = head->next;
-    head = head->next;
-    delete delNode;
-}
-
-void deleteBack(Node *&head){
-    if(head == NULL) return;
-
-    if(head->next == head){
+    // Only one node
+    if (head->next == head) {
         delete head;
         head = NULL;
         return;
     }
 
-    Node *temp = head;
-    while(temp->next->next != head){
+    // Find last node
+    Node* temp = head;
+
+    while (temp->next != head) {
         temp = temp->next;
     }
 
-    Node *delNode = temp->next;
-    temp->next = head;
+    // Save node to delete
+    Node* delNode = head;
+
+    // Last node points to new head
+    temp->next = head->next;
+
+    // Move head
+    head = head->next;
+
     delete delNode;
 }
 
-int main(){
+// Delete Back — O(N)
+void deleteBack(Node*& head) {
 
-    Node *head = NULL;
+    // Empty list
+    if (head == NULL)
+        return;
+
+    // Only one node
+    if (head->next == head) {
+        delete head;
+        head = NULL;
+        return;
+    }
+
+    // Find second-last node
+    Node* temp = head;
+
+    while (temp->next->next != head) {
+        temp = temp->next;
+    }
+
+    // Last node
+    Node* delNode = temp->next;
+
+    // Second-last points to head
+    temp->next = head;
+
+    delete delNode;
+}
+
+int main() {
+
+    Node* head = NULL;
+
+    // Create first node
     head = new Node(10);
     head->next = head;
-    // head->next = new Node(20);
-    // head->next->next = new Node(30);
-    // head->next->next->next = new Node(40);
-    // head->next->next->next->next = head;
 
     cout << "\nTraversal\n";
     traversal(head);
@@ -124,7 +166,6 @@ int main(){
     cout << "\nDelete Back\n";
     deleteBack(head);
     traversal(head);
-
 
     return 0;
 }
