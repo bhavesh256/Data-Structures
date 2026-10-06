@@ -24,7 +24,9 @@ public:
   }
 
   // Destructor
-  ~StackArray() { delete[] stack_arr; }
+  ~StackArray(){ 
+    delete[] stack_arr; 
+  }
 
   // Push
   void push(int val) {
@@ -64,7 +66,9 @@ public:
   }
 
   // Check if stack is empty
-  bool isEmpty() { return TOP == -1; }
+  bool isEmpty(){ 
+    return TOP == -1;
+  }
 };
 
 int main() {

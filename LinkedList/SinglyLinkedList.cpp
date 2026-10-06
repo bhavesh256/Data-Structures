@@ -14,6 +14,11 @@ struct Node {
 // Traversal — O(N)
 void traverse(Node *&head) {
 
+  if(head == NULL){
+    cout << "Underflow";
+    return;
+  }
+
   Node *temp = head;
 
   while (temp != NULL) {
@@ -27,12 +32,18 @@ void traverse(Node *&head) {
 // Reverse Linked List — O(N)
 void reverse(Node *&head) {
 
+  if(head == NULL){
+    cout << "Underflow";
+    return;
+  }
+
   Node *prev = NULL;
   Node *curr = head;
+  Node *next = NULL;
 
   while (curr != NULL) {
 
-    Node *next = curr->next;
+    next = curr->next;
 
     curr->next = prev;
 
@@ -136,6 +147,36 @@ void deleteFront(Node *&head) {
   head = head->next;
 
   delete temp;
+}void deleteBack(Node *&head) {
+
+  // Empty list
+  if (head == NULL) {
+    cout << "Empty Linked List\n";
+    return;
+  }
+
+  // Only one node
+  if (head->next == NULL) {
+    delete head;
+    head = NULL;
+    return;
+  }
+
+  Node *temp = head;
+
+  // Stop at second-last node
+  while (temp->next->next != NULL) {
+    temp = temp->next;
+  }
+
+  // Save last node
+  Node *delNode = temp->next;
+
+  // Remove last node
+  temp->next = NULL;
+
+  // Delete last node
+  delete delNode;
 }
 
 // Delete At END — O(N)

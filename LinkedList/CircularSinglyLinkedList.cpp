@@ -5,7 +5,9 @@ struct Node {
   int data;
   Node *next = NULL;
 
-  Node(int data) { this->data = data; }
+  Node(int data){
+    this->data = data;
+  }
 };
 
 // Traversal — O(N)

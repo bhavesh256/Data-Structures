@@ -109,7 +109,7 @@ int search(int arr[], int n, int val) {
     }
   }
 
-  return-1;
+  return -1;
 }
 
 // Update at Position — O(1)
